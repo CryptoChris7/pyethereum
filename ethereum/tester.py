@@ -137,7 +137,7 @@ class ABIContract(object):  # pylint: disable=too-few-public-methods
                 key,
                 self.address,
                 kwargs.get('value', 0),
-                self.translator.encode(function_name, args),
+                self.translator.encode_function_call(function_name, args),
                 **dict_without(kwargs, 'sender', 'value', 'output')
             )
 
@@ -146,7 +146,7 @@ class ABIContract(object):  # pylint: disable=too-few-public-methods
             elif not result['output']:
                 outdata = None
             else:
-                outdata = self.translator.decode(function_name, result['output'])
+                outdata = self.translator.decode_function_result(function_name, result['output'])
                 outdata = outdata[0] if len(outdata) == 1 else outdata
 
             if kwargs.get('profiling', ''):
